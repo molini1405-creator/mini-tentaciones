@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+
+{% block contenido %}
+
+<h2 class="mb-4">📦 Gestión de Pedidos</h2>
+
+{% if pedidos %}
+
+    {% for pedido in pedidos %}
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+
+            <div>
+                <h5 class="mb-0">Pedido #{{ pedido.id }}</h5>
+                <small class="text-muted">
+                    {{ pedido.fecha.strftime('%d/%m/%Y %H:%M') }}
+                </small>
+            </div>
+
+            <form method="POST" action="/admin/pedido/{{ pedido.id }}/estado" class="d-flex gap-2 align-items-center flex-wrap">
+
+                <select name="estado" class="form-select form-select-sm" style="width: 170px;">
+
+                    <option value="pendiente" {% if pedido.estado == 'pendiente' %}selected{% endif %}>
+                        Pendiente
+                    </option>
+
+                    <option value="preparando" {% if pedido.estado == 'preparando' %}selected{% endif %}>
+                        Preparando
+                    </option>
+
+                    <option value="entregado" {% if pedido.estado == 'entregado' %}selected{% endif %}>
+                        Entregado
+                    </option>
+
+                    <option value="cancelado" {% if pedido.estado == 'cancelado' %}selected{% endif %}>
+                        Cancelado
+                    </option>
+
+                </select>
+
+                <button class="btn btn-primary btn-sm">
+                    Guardar
+                </button>
+
+            </form>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="row mb-3">
+
+                <div class="col-md-6">
+                    <strong>Cliente:</strong><br>
+                    {{ pedido.usuario.nombre if pedido.usuario else 'Sin usuario' }}
+                </div>
+
+                <div class="col-md-6">
+                    <strong>Email:</strong><br>
+                    {{ pedido.usuario.email if pedido.usuario else '-' }}
+                </div>
+
+            </div>
+
+            <div class="table-responsive">
+
+                <table class="table align-middle">
+
+                    <thead class="table-light">
+                        <tr>
+                            <th>Producto</th>
+                            <th class="text-center">Cantidad</th>
+                            <th class="text-end">Precio</th>
+                            <th class="text-end">Subtotal</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for item in pedido.items %}
+
+                        <tr>
+
+                            <td>
+                                {{ item.producto.nombre if item.producto else 'Producto eliminado' }}
+                            </td>
+
+                            <td class="text-center">
+                                {{ item.cantidad }}
+                            </td>
+
+                            <td class="text-end">
+                                ${{ '%.0f'|format(item.precio_unitario) }}
+                            </td>
+
+                            <td class="text-end fw-semibold">
+                                ${{ '%.0f'|format(item.cantidad * item.precio_unitario) }}
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                    <tfoot>
+
+                        <tr>
+                            <th colspan="3" class="text-end">TOTAL</th>
+                            <th class="text-end text-success">
+                                ${{ '%.0f'|format(pedido.total) }}
+                            </th>
+                        </tr>
+
+                    </tfoot>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+{% else %}
+
+<div class="alert alert-info">
+    No hay pedidos registrados.
+</div>
+
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block contenido %}
+
+<h2 class="mb-4">Productos</h2>
+
+<div class="row">
+
+    {% for producto in productos %}
+    <div class="col-md-4 mb-4">
+
+        <div class="card h-100 shadow-sm">
+
+            {% if producto.imagen %}
+                <img src="{{ url_for('static', filename='uploads/' + producto.imagen) }}"
+                     class="card-img-top"
+                     style="height: 250px; object-fit: cover;">
+            {% else %}
+                <img src="https://via.placeholder.com/400x250?text=Sin+Imagen"
+                     class="card-img-top">
+            {% endif %}
+
+            <div class="card-body d-flex flex-column">
+
+                <h5 class="card-title">{{ producto.nombre }}</h5>
+
+                <p class="card-text text-muted">
+                    {{ producto.descripcion }}
+                </p>
+
+                <div class="mt-auto">
+
+                    <h4 class="text-success">
+                        ${{ '%.2f'|format(producto.precio) }}
+                    </h4>
+
+                    <p class="small text-secondary">
+                        Stock: {{ producto.stock }}
+                    </p>
+
+                    {% if producto.stock > 0 %}
+
+<form action="/agregar-carrito/{{ producto.id }}" method="POST">
+    <button class="btn btn-primary w-100">
+        🛒 Agregar al carrito
+    </button>
+</form>
+
+{% else %}
+
+<button class="btn btn-secondary w-100" disabled>
+    ❌ Sin stock
+</button>
+
+{% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    {% endfor %}
+
+</div>
+
+{% endblock %}

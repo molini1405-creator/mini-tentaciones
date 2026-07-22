@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block contenido %}
+
+<h2 class="mb-4">📋 Mis pedidos</h2>
+
+{% if pedidos %}
+
+    {% for pedido in pedidos %}
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+
+            <div>
+                <h5 class="mb-0">Pedido #{{ pedido.id }}</h5>
+                <small class="text-muted">
+                    {{ pedido.fecha.strftime('%d/%m/%Y %H:%M') }}
+                </small>
+            </div>
+
+            {% if pedido.estado == 'pendiente' %}
+                <span class="badge bg-warning text-dark">⏳ Pendiente</span>
+            {% elif pedido.estado == 'preparando' %}
+                <span class="badge bg-info text-dark">👨‍🍳 Preparando</span>
+            {% elif pedido.estado == 'entregado' %}
+                <span class="badge bg-success">✅ Entregado</span>
+            {% elif pedido.estado == 'cancelado' %}
+                <span class="badge bg-danger">❌ Cancelado</span>
+            {% endif %}
+
+        </div>
+
+        <div class="card-body">
+
+            <ul class="list-group list-group-flush mb-3">
+
+                {% for item in pedido.items %}
+
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+
+                    <div>
+                        <strong>{{ item.producto.nombre if item.producto else 'Producto eliminado' }}</strong>
+                        <br>
+                        <small class="text-muted">Cantidad: {{ item.cantidad }}</small>
+                    </div>
+
+                    <span class="fw-semibold">
+                        ${{ '%.0f'|format(item.cantidad * item.precio_unitario) }}
+                    </span>
+
+                </li>
+
+                {% endfor %}
+
+            </ul>
+
+            <div class="d-flex justify-content-between align-items-center">
+                <strong>Total</strong>
+                <span class="fs-5 text-success fw-bold">
+                    ${{ '%.0f'|format(pedido.total) }}
+                </span>
+            </div>
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+{% else %}
+
+<div class="alert alert-info">
+    Todavía no realizaste ningún pedido.
+</div>
+
+{% endif %}
+
+{% endblock %}
