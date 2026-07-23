@@ -96,45 +96,106 @@ def registro():
         nombre = request.form['nombre']
         email = request.form['email']
         password = request.form['password']
+        confirmar = request.form['confirmar_password']
 
+        # Validar que coincidan
+        if password != confirmar:
+            flash(
+                'Las contraseñas no coinciden',
+                'danger'
+            )
+            return redirect(url_for('registro'))
 
+        # Validar longitud
+        if len(password) < 6:
+            flash(
+                'La contraseña debe tener al menos 6 caracteres',
+                'danger'
+            )
+            return redirect(url_for('registro'))
+
+        # Verificar email existente
         usuario_existente = Usuario.query.filter_by(
             email=email
         ).first()
 
-
         if usuario_existente:
+            flash(
+                'Ya existe una cuenta con ese email',
+                'danger'
+            )
+            return redirect(url_for('registro'))
 
-            return "El email ya está registrado"
-
-
-        usuario = Usuario(
-
+        # Crear usuario
+        nuevo_usuario = Usuario(
             nombre=nombre,
-
             email=email,
-
-            password=generate_password_hash(
-                password
-            ),
-
-            es_admin=False
+            password=generate_password_hash(password)
         )
 
+        db.session.add(nuevo_usuario)
+        db.session.commit()
 
-        db.session.add(usuario)
+        flash(
+            'Cuenta creada correctamente. Ahora podés iniciar sesión.',
+            'success'
+        )
+
+        return redirect(url_for('login'))
+
+    return render_template('registro.html')
+
+# =========================
+# CAMBIAR CONTRASEÑA
+# =========================
+
+@app.route('/cambiar-password', methods=['GET', 'POST'])
+@login_required
+def cambiar_password():
+
+    if request.method == 'POST':
+
+        actual = request.form['actual']
+        nueva = request.form['nueva']
+        confirmar = request.form['confirmar']
+
+        # Verificar contraseña actual
+        if not check_password_hash(current_user.password, actual):
+            flash(
+                'La contraseña actual es incorrecta',
+                'danger'
+            )
+            return redirect(url_for('cambiar_password'))
+
+        # Verificar coincidencia
+        if nueva != confirmar:
+            flash(
+                'Las nuevas contraseñas no coinciden',
+                'danger'
+            )
+            return redirect(url_for('cambiar_password'))
+
+        # Verificar longitud
+        if len(nueva) < 6:
+            flash(
+                'La nueva contraseña debe tener al menos 6 caracteres',
+                'danger'
+            )
+            return redirect(url_for('cambiar_password'))
+
+        # Guardar nueva contraseña
+        current_user.password = generate_password_hash(nueva)
 
         db.session.commit()
 
-
-        return redirect(
-            url_for('login')
+        flash(
+            'Contraseña actualizada correctamente',
+            'success'
         )
 
+        return redirect(url_for('catalogo'))
 
-    return render_template(
-        'registro.html'
-    )
+    return render_template('cambiar_password.html')
 
 # =========================
 # LOGIN
@@ -185,6 +246,8 @@ def logout():
     logout_user()
 
     return redirect(url_for('catalogo', agregado=1))
+
+
 
 
 # =========================
@@ -675,3 +738,4 @@ if __name__ == '__main__':
         port=5000
 
     )
+
