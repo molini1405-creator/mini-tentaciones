@@ -32,9 +32,9 @@ class Config:
     MAIL_USE_TLS = True
 
     # PONÉ TU GMAIL
-    MAIL_USERNAME = 'fisura1405@gmail.com'
+    MAIL_USERNAME = 'mini.tentaciones.ok@gmail.com'
 
     # PONÉ LA CONTRASEÑA DE APLICACIÓN
-    MAIL_PASSWORD = 'kidy redf hcib hzjo'
+    MAIL_PASSWORD = 'sgvf qxuz sxzg xcul'
 
-    MAIL_DEFAULT_SENDER = 'fisura1405@gmail.com'
+    MAIL_DEFAULT_SENDER = 'mini.tentaciones.ok@gmail.com'
