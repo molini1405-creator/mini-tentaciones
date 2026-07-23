@@ -271,6 +271,18 @@ Hacé clic en este enlace para restablecer tu contraseña en Mini tentaciones �
 
     return render_template('olvide_password.html')
 
+@app.route('/debug-mail')
+def debug_mail():
+
+    return {
+        'server': app.config.get('MAIL_SERVER'),
+        'port': app.config.get('MAIL_PORT'),
+        'tls': app.config.get('MAIL_USE_TLS'),
+        'ssl': app.config.get('MAIL_USE_SSL'),
+        'username': app.config.get('MAIL_USERNAME'),
+        'password_loaded': bool(app.config.get('MAIL_PASSWORD'))
+    }
+
 # =========================
 # RESET PASSWORD
 # =========================
