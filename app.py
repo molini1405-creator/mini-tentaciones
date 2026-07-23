@@ -25,7 +25,6 @@ from urllib.parse import quote
 
 from flask_mail import Mail, Message
 from threading import Thread
-from itsdangerous import URLSafeTimedSerializer
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -33,6 +32,7 @@ app.config.from_object(Config)
 db.init_app(app)
 
 mail = Mail(app)
+from itsdangerous import URLSafeTimedSerializer
 def enviar_email_async(app, usuario, enlace):
 
     try:
@@ -274,7 +274,7 @@ def olvide_password():
 
                 msg = Message(
                     'Recuperar contraseña - Mini Tentaciones',
-                    recipients=['molini1405@gmail.com']
+                    recipients=[usuario.email]
                 )
 
                 msg.body = f'''
