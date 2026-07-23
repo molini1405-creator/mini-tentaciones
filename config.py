@@ -6,7 +6,7 @@ class Config:
 
     SECRET_KEY = os.environ.get(
         'SECRET_KEY',
-        'mini_tentaciones_super_secreta'
+        'mini26tentaciones26'
     )
 
     DATABASE_URL = os.environ.get('DATABASE_URL')
