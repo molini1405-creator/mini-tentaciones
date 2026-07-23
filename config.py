@@ -27,15 +27,10 @@ class Config:
     )
 
     # ===== EMAIL =====
-    MAIL_SERVER = 'smtp.gmail.com'
-    MAIL_PORT = 465
-    MAIL_USE_TLS = False
-    MAIL_USE_SSL = True
+MAIL_SERVER = 'smtp.gmail.com'
+MAIL_PORT = 587
+MAIL_USE_TLS = True
 
-    # PONÉ TU GMAIL
-    MAIL_USERNAME = 'mini.tentaciones.ok@gmail.com'
-
-    # PONÉ LA CONTRASEÑA DE APLICACIÓN
-    MAIL_PASSWORD = 'kodj xmwq yzcj elyr'
-
-    MAIL_DEFAULT_SENDER = 'mini.tentaciones.ok@gmail.com'
+MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
+MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+MAIL_DEFAULT_SENDER = os.environ.get('MAIL_USERNAME')
