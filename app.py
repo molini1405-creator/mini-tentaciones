@@ -248,7 +248,7 @@ def olvide_password():
                 msg.body = f'''
 Hola {usuario.nombre}
 
-Hacé clic en este enlace:
+Hacé clic en este enlace para restablecer tu contraseña en Mini tentaciones 🍩:
 
 {enlace}
 '''
