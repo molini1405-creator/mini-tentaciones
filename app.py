@@ -2,6 +2,7 @@ from flask import Flask, render_template, session, redirect, url_for, request, f
 from config import Config
 from models import db
 
+
 from models.usuario import Usuario
 from models.producto import Producto
 from models.pedido import Pedido
@@ -23,6 +24,7 @@ from threading import Timer
 from urllib.parse import quote
 
 from flask_mail import Mail, Message
+from threading import Thread
 from itsdangerous import URLSafeTimedSerializer
 
 app = Flask(__name__)
@@ -31,6 +33,13 @@ app.config.from_object(Config)
 db.init_app(app)
 
 mail = Mail(app)
+def enviar_email_async(app, msg):
+    with app.app_context():
+        try:
+            mail.send(msg)
+            print('EMAIL ENVIADO CORRECTAMENTE')
+        except Exception as e:
+            print('ERROR AL ENVIAR EMAIL:', e)
 serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
 
 
@@ -253,7 +262,10 @@ Hacé clic en este enlace para restablecer tu contraseña en Mini tentaciones �
 {enlace}
 '''
 
-                mail.send(msg)
+                Thread(
+    target=enviar_email_async,
+    args=(app, msg)
+).start()
 
                 print('EMAIL ENVIADO CORRECTAMENTE')
 
