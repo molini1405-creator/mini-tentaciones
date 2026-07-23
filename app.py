@@ -41,7 +41,7 @@ def enviar_email_async(app, usuario, enlace):
 
         resend.Emails.send({
             'from': 'Mini Tentaciones <onboarding@resend.dev>',
-            'to': ['mini.tentaciones.ok@gmail.com'],
+            'to': [ [usuario.email]],
             'subject': 'Recuperar contraseña - Mini Tentaciones',
             'html': f'''
                 <h2>Hola {usuario.nombre} 🍩</h2>
