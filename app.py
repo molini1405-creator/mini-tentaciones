@@ -1,4 +1,4 @@
-from flask import Flask, render_template, session, redirect, url_for, request
+from flask import Flask, render_template, session, redirect, url_for, request, flash
 from config import Config
 from models import db
 
@@ -22,10 +22,16 @@ import webbrowser
 from threading import Timer
 from urllib.parse import quote
 
+from flask_mail import Mail, Message
+from itsdangerous import URLSafeTimedSerializer
+
 app = Flask(__name__)
 app.config.from_object(Config)
 
 db.init_app(app)
+
+mail = Mail(app)
+serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
 
 
 # =========================
@@ -197,6 +203,124 @@ def cambiar_password():
 
     return render_template('cambiar_password.html')
 
+# =========================
+# OLVIDÉ MI CONTRASEÑA
+# =========================
+
+@app.route('/olvide-password', methods=['GET', 'POST'])
+def olvide_password():
+
+    if request.method == 'POST':
+
+        email = request.form['email']
+
+        usuario = Usuario.query.filter_by(
+            email=email
+        ).first()
+
+        print()
+        print('EMAIL INGRESADO:', email)
+        print('USUARIO ENCONTRADO:', usuario)
+        print()
+
+        if usuario:
+
+            try:
+
+                token = serializer.dumps(
+                    usuario.email,
+                    salt='reset-password'
+                )
+
+                enlace = url_for(
+                    'reset_password',
+                    token=token,
+                    _external=True
+                )
+
+                print('ENLACE:', enlace)
+
+                msg = Message(
+                    'Recuperar contraseña - Mini Tentaciones',
+                    recipients=[usuario.email]
+                )
+
+                msg.body = f'''
+Hola {usuario.nombre}
+
+Hacé clic en este enlace:
+
+{enlace}
+'''
+
+                mail.send(msg)
+
+                print('EMAIL ENVIADO CORRECTAMENTE')
+
+            except Exception as e:
+
+                print('ERROR AL ENVIAR EMAIL:')
+                print(e)
+
+        flash(
+            'Si el correo existe, enviamos un enlace de recuperación.',
+            'success'
+        )
+
+        return redirect(url_for('login'))
+
+    return render_template('olvide_password.html')
+
+# =========================
+# RESET PASSWORD
+# =========================
+
+@app.route('/reset-password/<token>', methods=['GET', 'POST'])
+def reset_password(token):
+
+    try:
+
+        email = serializer.loads(
+            token,
+            salt='reset-password',
+            max_age=3600
+        )
+
+    except:
+        flash(
+            'El enlace es inválido o ya venció',
+            'danger'
+        )
+        return redirect(url_for('login'))
+
+    usuario = Usuario.query.filter_by(
+        email=email
+    ).first_or_404()
+
+    if request.method == 'POST':
+
+        password = request.form['password']
+        confirmar = request.form['confirmar']
+
+        if password != confirmar:
+            flash(
+                'Las contraseñas no coinciden',
+                'danger'
+            )
+            return redirect(request.url)
+
+        usuario.password = generate_password_hash(password)
+
+        db.session.commit()
+
+        flash(
+            'Contraseña actualizada correctamente',
+            'success'
+        )
+
+        return redirect(url_for('login'))
+
+    return render_template('reset_password.html')
 # =========================
 # LOGIN
 # =========================

@@ -4,58 +4,93 @@
 
 <div class="row justify-content-center">
 
-    <div class="col-md-5">
+    <div class="col-md-6 col-lg-5">
 
-        <div class="card shadow">
+        <div class="card shadow border-0 rounded-4">
 
-            <div class="card-body">
+            <div class="card-body p-4">
 
-                <h2 class="text-center mb-4">
-                    🔐 Iniciar sesión
-                </h2>
+                <div class="text-center mb-4">
+                    <h2 class="fw-bold">🔐 Iniciar sesión</h2>
+                    <p class="text-muted mb-0">
+                        Entrá a tu cuenta para realizar pedidos y seguir su estado
+                    </p>
+                </div>
 
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }} alert-dismissible fade show">
+                                {{ message }}
+                                <button type="button"
+                                        class="btn-close"
+                                        data-bs-dismiss="alert">
+                                </button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
 
                 <form method="POST">
 
                     <div class="mb-3">
-
-                        <label class="form-label">
-                            Email
+                        <label class="form-label fw-semibold">
+                            Correo electrónico
                         </label>
 
-                        <input 
-                            type="email"
-                            name="email"
-                            class="form-control"
-                            required>
-
+                        <input type="email"
+                               name="email"
+                               class="form-control form-control-lg rounded-3"
+                               placeholder="tuemail@gmail.com"
+                               required>
                     </div>
 
-
-                    <div class="mb-3">
-
-                        <label class="form-label">
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold">
                             Contraseña
                         </label>
 
-                        <input 
-                            type="password"
-                            name="password"
-                            class="form-control"
-                            required>
-
+                        <input type="password"
+                               name="password"
+                               class="form-control form-control-lg rounded-3"
+                               placeholder="••••••••"
+                               required>
                     </div>
 
-
-                    <button class="btn btn-primary w-100">
-
-                        Entrar
-
+                    <button class="btn btn-primary btn-lg w-100 rounded-3 fw-semibold">
+                        Ingresar
                     </button>
-
 
                 </form>
 
+                <!-- OLVIDÉ CONTRASEÑA ABAJO DEL BOTÓN -->
+                <div class="text-center mt-3">
+
+                    <a href="/olvide-password"
+                       class="text-decoration-none fw-semibold text-primary">
+
+                        ¿Olvidaste tu contraseña?
+
+                    </a>
+
+                </div>
+
+                <hr class="my-4">
+
+                <div class="text-center">
+
+                    <p class="mb-0 text-muted">
+                        ¿No tenés una cuenta?
+                    </p>
+
+                    <a href="/registro"
+                       class="btn btn-outline-success mt-3 rounded-3 fw-semibold px-4">
+
+                        Crear cuenta
+
+                    </a>
+
+                </div>
 
             </div>
 
@@ -64,6 +99,5 @@
     </div>
 
 </div>
-
 
 {% endblock %}
