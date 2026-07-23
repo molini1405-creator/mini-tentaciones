@@ -1,7 +1,7 @@
 from flask import Flask, render_template, session, redirect, url_for, request, flash
 from config import Config
 from models import db
-
+import resend
 
 from models.usuario import Usuario
 from models.producto import Producto
@@ -33,14 +33,37 @@ app.config.from_object(Config)
 db.init_app(app)
 
 mail = Mail(app)
-def enviar_email_async(app, msg):
-    with app.app_context():
-        try:
-            mail.send(msg)
-            print('EMAIL ENVIADO CORRECTAMENTE')
-        except Exception as e:
-            print('ERROR AL ENVIAR EMAIL:', e)
-serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+def enviar_email_async(app, usuario, enlace):
+
+    try:
+
+        resend.api_key = os.environ.get('RESEND_API_KEY')
+
+        resend.Emails.send({
+            'from': 'Mini Tentaciones <onboarding@resend.dev>',
+            'to': ['mini.tentaciones.ok@gmail.com'],
+            'subject': 'Recuperar contraseña - Mini Tentaciones',
+            'html': f'''
+                <h2>Hola {usuario.nombre} 🍩</h2>
+                <p>Hacé clic en el botón para restablecer tu contraseña:</p>
+
+                <p>
+                    <a href="{enlace}"
+                       style="background:#0d6efd;color:white;padding:12px 20px;
+                              text-decoration:none;border-radius:8px;display:inline-block;">
+                        Restablecer contraseña
+                    </a>
+                </p>
+
+                <p>Este enlace vence en 1 hora.</p>
+                <p>Mini Tentaciones 🍩</p>
+            '''
+        })
+
+        print('EMAIL ENVIADO CON RESEND')
+
+    except Exception as e:
+        print('ERROR RESEND:', e)
 
 
 # =========================
@@ -261,11 +284,11 @@ Hacé clic en este enlace para restablecer tu contraseña en Mini tentaciones �
 
 {enlace}
 '''
-
                 Thread(
     target=enviar_email_async,
-    args=(app, msg)
+    args=(app, usuario, enlace)
 ).start()
+    
 
                 print('EMAIL ENVIADO CORRECTAMENTE')
 
