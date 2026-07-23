@@ -295,6 +295,20 @@ def debug_mail():
         'password_loaded': bool(app.config.get('MAIL_PASSWORD'))
     }
 
+@app.route('/test-directo')
+def test_directo():
+
+    msg = Message(
+        'PRUEBA DIRECTA',
+        recipients=['molini1405@gmail.com']
+    )
+
+    msg.body = 'Si recibís esto, Gmail desde Render funciona.'
+
+    mail.send(msg)
+
+    return 'enviado'
+
 # =========================
 # RESET PASSWORD
 # =========================
