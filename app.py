@@ -183,9 +183,7 @@ def logout():
 
     logout_user()
 
-    return redirect(
-        url_for('catalogo')
-    )
+    return redirect(url_for('catalogo', agregado=1))
 
 
 # =========================
