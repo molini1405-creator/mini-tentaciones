@@ -251,7 +251,7 @@ def olvide_password():
 
                 msg = Message(
                     'Recuperar contraseña - Mini Tentaciones',
-                    recipients=[usuario.email]
+                    recipients=['molini1405@gmail.com']
                 )
 
                 msg.body = f'''
