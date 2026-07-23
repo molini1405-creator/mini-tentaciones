@@ -25,3 +25,16 @@ class Config:
         'static',
         'uploads'
     )
+
+    # ===== EMAIL =====
+    MAIL_SERVER = 'smtp.gmail.com'
+    MAIL_PORT = 587
+    MAIL_USE_TLS = True
+
+    # PONÉ TU GMAIL
+    MAIL_USERNAME = 'fisura1405@gmail.com'
+
+    # PONÉ LA CONTRASEÑA DE APLICACIÓN
+    MAIL_PASSWORD = 'kidy redf hcib hzjo'
+
+    MAIL_DEFAULT_SENDER = 'fisura1405@gmail.com'
