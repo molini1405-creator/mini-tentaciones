@@ -648,6 +648,8 @@ with app.app_context():
 
         db.session.commit()
 
+with app.app_context():
+    db.create_all()
 
 # =========================
 # INICIAR APP
