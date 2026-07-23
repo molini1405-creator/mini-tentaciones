@@ -28,13 +28,14 @@ class Config:
 
     # ===== EMAIL =====
     MAIL_SERVER = 'smtp.gmail.com'
-    MAIL_PORT = 587
-    MAIL_USE_TLS = True
+    MAIL_PORT = 465
+    MAIL_USE_TLS = False
+    MAIL_USE_SSL = True
 
     # PONÉ TU GMAIL
     MAIL_USERNAME = 'mini.tentaciones.ok@gmail.com'
 
     # PONÉ LA CONTRASEÑA DE APLICACIÓN
-    MAIL_PASSWORD = 'sgvf qxuz sxzg xcul'
+    MAIL_PASSWORD = 'kodj xmwq yzcj elyr'
 
     MAIL_DEFAULT_SENDER = 'mini.tentaciones.ok@gmail.com'
