@@ -649,45 +649,6 @@ with app.app_context():
         db.session.commit()
 
 
-
-    # Crear productos demo
-
-    if Producto.query.count() == 0:
-
-        productos_demo = [
-
-            Producto(
-                nombre='Auriculares Gamer',
-                descripcion='Auriculares RGB con micrófono',
-                precio=45000,
-                stock=10
-            ),
-
-            Producto(
-                nombre='Teclado Mecánico',
-                descripcion='Switches Red y retroiluminación',
-                precio=78000,
-                stock=5
-            ),
-
-            Producto(
-                nombre='Mouse Inalámbrico',
-                descripcion='Mouse ergonómico de alta precisión',
-                precio=32000,
-                stock=15
-            )
-
-        ]
-
-
-        db.session.add_all(
-            productos_demo
-        )
-
-        db.session.commit()
-
-
-
 # =========================
 # INICIAR APP
 # =========================
