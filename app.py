@@ -272,18 +272,7 @@ def olvide_password():
 
                 print('ENLACE:', enlace)
 
-                msg = Message(
-                    'Recuperar contraseña - Mini Tentaciones',
-                    recipients=[usuario.email]
-                )
 
-                msg.body = f'''
-Hola {usuario.nombre}
-
-Hacé clic en este enlace para restablecer tu contraseña en Mini tentaciones 🍩:
-
-{enlace}
-'''
                 Thread(
     target=enviar_email_async,
     args=(app, usuario, enlace)
