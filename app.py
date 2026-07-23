@@ -61,7 +61,8 @@ def abrir_navegador():
 def obtener_carrito():
 
     if 'carrito' not in session:
-        session['carrito'] = {}
+        session.pop('carrito', None)
+        session.modified = True
 
     return session['carrito']
 

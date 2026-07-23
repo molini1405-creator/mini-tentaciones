@@ -112,7 +112,8 @@
 
                         🛒 Carrito
 
-                        {% set total_items = session.get('carrito', {}).values() | sum %}
+                        {% set carrito = session.get('carrito') %}
+{% set total_items = carrito.values() | sum if carrito else 0 %}
 
                         {% if total_items > 0 %}
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger carrito-badge">
