@@ -176,117 +176,104 @@
 
 </div>
 
-<!-- SECCIÓN RESEÑAS -->
-<div class="mt-5 pt-4 border-top">
+<hr class="my-5">
 
-    <div class="text-center mb-5">
-        <h2 class="fw-bold">⭐ Lo que dicen nuestros clientes</h2>
-        <p class="text-muted">
-            Más de 100 pedidos entregados con amor y mucho dulce 🍩
-        </p>
+<div class="text-center mb-5">
+
+    <h2 class="fw-bold">
+        ⭐ Opiniones de nuestros clientes
+    </h2>
+
+    <h1 class="text-warning fw-bold">
+        {{ promedio }} ⭐
+    </h1>
+
+    <p class="text-muted">
+        Basado en {{ cantidad_resenas }} reseña{{ 's' if cantidad_resenas != 1 else '' }}
+    </p>
+
+</div>
+
+{% if current_user.is_authenticated %}
+
+<form action="/agregar-resena" method="POST" class="card shadow p-4 mb-5">
+
+    <div class="mb-3">
+        <label class="form-label">
+            Calificación
+        </label>
+
+        <select
+            name="estrellas"
+            class="form-select"
+            required
+        >
+            <option value="">Seleccionar...</option>
+            <option value="5">⭐⭐⭐⭐⭐ Excelente</option>
+            <option value="4">⭐⭐⭐⭐ Muy bueno</option>
+            <option value="3">⭐⭐⭐ Bueno</option>
+            <option value="2">⭐⭐ Regular</option>
+            <option value="1">⭐ Malo</option>
+        </select>
     </div>
 
-    <div class="row g-4">
+    <div class="mb-3">
 
-        <div class="col-md-4">
-            <div class="card h-100 border-0 shadow-sm rounded-4">
-                <div class="card-body p-4">
+        <label class="form-label">
+            Comentario
+        </label>
 
-                    <div class="mb-3 fs-4 text-warning">
-                        ⭐⭐⭐⭐⭐
-                    </div>
-
-                    <p class="mb-4">
-                        “Las mejores donas de Maipú. Llegaron súper frescas y el relleno de Oreo es una locura.”
-                    </p>
-
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center"
-                             style="width: 48px; height: 48px;">
-                            L
-                        </div>
-                        <div>
-                            <strong>Lucía Fernández</strong>
-                            <br>
-                            <small class="text-muted">Cliente frecuente</small>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card h-100 border-0 shadow-sm rounded-4">
-                <div class="card-body p-4">
-
-                    <div class="mb-3 fs-4 text-warning">
-                        ⭐⭐⭐⭐⭐
-                    </div>
-
-                    <p class="mb-4">
-                        “Pedí por la página y en dos minutos ya estaba enviando el pedido por WhatsApp. Súper cómodo.”
-                    </p>
-
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center"
-                             style="width: 48px; height: 48px;">
-                            M
-                        </div>
-                        <div>
-                            <strong>Martín Rojas</strong>
-                            <br>
-                            <small class="text-muted">Pedido online</small>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card h-100 border-0 shadow-sm rounded-4">
-                <div class="card-body p-4">
-
-                    <div class="mb-3 fs-4 text-warning">
-                        ⭐⭐⭐⭐⭐
-                    </div>
-
-                    <p class="mb-4">
-                        “La presentación es hermosa y las donas se ven exactamente igual que en las fotos.”
-                    </p>
-
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="bg-danger text-white rounded-circle d-flex align-items-center justify-content-center"
-                             style="width: 48px; height: 48px;">
-                            C
-                        </div>
-                        <div>
-                            <strong>Camila Torres</strong>
-                            <br>
-                            <small class="text-muted">Primera compra</small>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
+        <textarea
+            name="comentario"
+            class="form-control"
+            rows="4"
+            maxlength="500"
+            required
+        ></textarea>
 
     </div>
 
-    <div class="text-center mt-5">
+    <button class="btn btn-success">
+        ⭐ Publicar reseña
+    </button>
 
-        <div class="bg-light rounded-4 p-4 shadow-sm d-inline-block">
+</form>
 
-            <div class="fs-2 fw-bold text-success">4.9/5</div>
+{% endif %}
 
-            <div class="text-warning fs-4 mb-2">
-                ⭐⭐⭐⭐⭐
-            </div>
+<div class="row">
 
-            <p class="text-muted mb-0">
-                Basado en reseñas de clientes de Mini Tentaciones
-            </p>
+{% for resena in resenas %}
+
+<div class="col-md-6 mb-4">
+
+    <div class="card border-0 shadow rounded-4 h-100">
+
+        <div class="card-body p-4">
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+
+    <h5 class="fw-bold mb-0">
+        {{ resena.usuario.nombre }}
+    </h5>
+
+    <small class="text-muted">
+        {{ resena.fecha.strftime("%d/%m/%Y") }}
+    </small>
+
+</div>
+
+<div class="text-warning fs-4 mb-3">
+
+    {% for i in range(resena.estrellas) %}
+        ⭐
+    {% endfor %}
+
+</div>
+
+<p class="mb-0">
+    "{{ resena.comentario }}"
+</p>
 
         </div>
 
@@ -294,4 +281,7 @@
 
 </div>
 
+{% endfor %}
+
+</div>
 {% endblock %}

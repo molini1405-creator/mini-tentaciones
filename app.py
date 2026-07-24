@@ -7,6 +7,7 @@ from models.usuario import Usuario
 from models.producto import Producto
 from models.pedido import Pedido
 from models.item_pedido import ItemPedido
+from models.resena import Resena
 
 from flask_login import (
     LoginManager,
@@ -419,10 +420,47 @@ def catalogo():
 
     productos = Producto.query.all()
 
+    resenas = Resena.query.order_by(
+        Resena.fecha.desc()
+    ).all()
+
     return render_template(
         'catalogo.html',
-        productos=productos
+        productos=productos,
+        resenas=resenas
     )
+
+# =========================
+# RESEÑA
+# =========================
+
+@app.route("/agregar-resena", methods=["POST"])
+@login_required
+def agregar_resena():
+
+    ya_existe = Resena.query.filter_by(
+        usuario_id=current_user.id
+    ).first()
+
+    if ya_existe:
+        flash("Ya dejaste una reseña.", "warning")
+        return redirect(url_for("catalogo"))
+
+    estrellas = int(request.form["estrellas"])
+    comentario = request.form["comentario"]
+
+    nueva = Resena(
+        usuario_id=current_user.id,
+        estrellas=estrellas,
+        comentario=comentario
+    )
+
+    db.session.add(nueva)
+    db.session.commit()
+
+    flash("¡Gracias por tu reseña!", "success")
+
+    return redirect(url_for("catalogo"))
 
 # =========================
 # VER CARRITO
