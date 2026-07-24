@@ -22,8 +22,6 @@ import os
 import webbrowser
 from threading import Timer
 from urllib.parse import quote
-
-from flask_mail import Mail, Message
 from threading import Thread
 
 app = Flask(__name__)
@@ -31,7 +29,6 @@ app.config.from_object(Config)
 
 db.init_app(app)
 
-mail = Mail(app)
 from itsdangerous import URLSafeTimedSerializer
 serializer = URLSafeTimedSerializer(
     app.config['SECRET_KEY']
