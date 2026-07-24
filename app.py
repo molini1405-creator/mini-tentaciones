@@ -33,6 +33,9 @@ db.init_app(app)
 
 mail = Mail(app)
 from itsdangerous import URLSafeTimedSerializer
+serializer = URLSafeTimedSerializer(
+    app.config['SECRET_KEY']
+)
 def enviar_email_async(app, usuario, enlace):
 
     try:
