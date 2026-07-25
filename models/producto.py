@@ -29,10 +29,3 @@ class Producto(db.Model):
     imagen = db.Column(
         db.String(200)
     )
-
-
-    resenas = db.relationship(
-        "Resena",
-        backref="producto",
-        cascade="all, delete-orphan"
-    )

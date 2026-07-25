@@ -2,6 +2,7 @@ from flask import Flask, render_template, session, redirect, url_for, request, f
 from config import Config
 from models import db
 import resend
+from flask_migrate import Migrate
 
 from models.usuario import Usuario
 from models.producto import Producto
@@ -29,6 +30,7 @@ app = Flask(__name__)
 app.config.from_object(Config)
 
 db.init_app(app)
+migrate = Migrate(app, db)
 
 from itsdangerous import URLSafeTimedSerializer
 serializer = URLSafeTimedSerializer(

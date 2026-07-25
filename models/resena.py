@@ -12,12 +12,6 @@ class Resena(db.Model):
         nullable=False
     )
 
-    producto_id = db.Column(
-    db.Integer,
-    db.ForeignKey("producto.id"),
-    nullable=False
-)
-
     estrellas = db.Column(
         db.Integer,
         nullable=False
