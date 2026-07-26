@@ -457,10 +457,24 @@ def agregar_resena():
         comentario=comentario
     )
 
-    db.session.add(nueva)
-    db.session.commit()
+    try:
 
-    flash("¡Gracias por tu reseña!", "success")
+        db.session.add(nueva)
+        db.session.commit()
+
+        flash("¡Gracias por tu reseña!", "success")
+
+    except Exception as e:
+
+        db.session.rollback()
+
+        print("=" * 60)
+        print("ERROR AL GUARDAR RESEÑA")
+        print(type(e))
+        print(repr(e))
+        print("=" * 60)
+
+        raise
 
     return redirect(url_for("catalogo"))
 
