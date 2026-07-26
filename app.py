@@ -655,11 +655,15 @@ def confirmar_pedido():
 
     # Mensaje WhatsApp
     mensaje = (
-        f"Hola Mini Tentaciones {dona}\n\n"
-        f"Nombre: {current_user.nombre}\n"
-        f"Email: {current_user.email}\n\n"
-        f"Pedido #{pedido.id}:\n\n"
-    )
+    
+    "🍩 Mini Tentaciones\n"
+    "━━━━━━━━━━━━━━\n\n"
+    f"👤 Cliente:\n"
+    f"{current_user.nombre}\n\n"
+    f"📧 Email:\n"
+    f"{current_user.email}\n\n"
+    f"🛒 Pedido #{pedido.id}:\n\n"
+)
 
 
     # Recorrer carrito
@@ -690,9 +694,11 @@ def confirmar_pedido():
 
             # Agregar producto al mensaje
             mensaje += (
-                f"{dona} {producto.nombre} "
-                f"x{cantidad} - ${subtotal:,.0f}\n"
-            )
+             
+    f"🍩 {producto.nombre}\n"
+    f"   Cantidad: x{cantidad}\n"
+    f"   Precio: ${subtotal:,.0f}\n\n"
+)
 
 
     pedido.total = total
@@ -706,9 +712,11 @@ def confirmar_pedido():
 
 
     mensaje += (
-        f"\nTotal: ${total:,.0f}\n\n"
-        "Quiero confirmar mi pedido."
-    )
+    
+    f"\n💰 Total del pedido:\n"
+    f"${total:,.0f}\n\n"
+    "✅ Quiero confirmar mi pedido."
+)
 
 
     # Debug para ver qué manda realmente
