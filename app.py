@@ -647,56 +647,86 @@ def confirmar_pedido():
 
     db.session.add(pedido)
     db.session.flush()
-# Texto para WhatsApp
-    mensaje = f"""Hola Mini Tentaciones 🍩\n\n"
 
-    Nombre: {current_user.nombre}
-    Email: {current_user.email}
 
-    Pedido #{pedido.id}:
+    # Emoji 🍩 en Unicode
+    dona = "\U0001F369"
 
-    """
 
-# Guardar items
+    # Mensaje inicial WhatsApp
+    mensaje = f"""Hola Mini Tentaciones {dona}
+
+Nombre: {current_user.nombre}
+Email: {current_user.email}
+
+Pedido #{pedido.id}:
+
+"""
+
+
+    # Guardar productos
     for producto_id, cantidad in carrito.items():
 
         producto = Producto.query.get(int(producto_id))
 
-    if producto and producto.stock >= cantidad:
 
-        subtotal = producto.precio * cantidad
-        total += subtotal
+        if producto and producto.stock >= cantidad:
 
-        producto.stock -= cantidad
+            subtotal = producto.precio * cantidad
 
-        item = ItemPedido(
-            pedido_id=pedido.id,
-            producto_id=producto.id,
-            cantidad=cantidad,
-            precio_unitario=producto.precio
-        )
+            total += subtotal
 
-        db.session.add(item)
 
-        mensaje += f"🍩 {producto.nombre} x{cantidad} - ${subtotal:,.0f}\n"
+            # Descontar stock
+            producto.stock -= cantidad
+
+
+            item = ItemPedido(
+                pedido_id=pedido.id,
+                producto_id=producto.id,
+                cantidad=cantidad,
+                precio_unitario=producto.precio
+            )
+
+            db.session.add(item)
+
+
+            # Agregar producto al mensaje
+            mensaje += (
+                f"{dona} {producto.nombre} "
+                f"x{cantidad} - ${subtotal:,.0f}\n"
+            )
 
 
     pedido.total = total
 
+
     db.session.commit()
 
+
+    # Vaciar carrito
     session['carrito'] = {}
+    session.modified = True
 
+
+    # Final del mensaje
     mensaje += f"""
-    Total: ${total:,.0f}
+Total: ${total:,.0f}
 
-    Quiero confirmar mi pedido.
+Quiero confirmar mi pedido.
 """
 
 
+    # Número WhatsApp
     numero = "5492612070017"
 
-    whatsapp_url = f"https://wa.me/{numero}?text={quote(mensaje, encoding='utf-8')}"
+
+    # Crear URL
+    whatsapp_url = (
+        f"https://wa.me/{numero}"
+        f"?text={quote(mensaje, encoding='utf-8')}"
+    )
+
 
     return redirect(whatsapp_url)
     
