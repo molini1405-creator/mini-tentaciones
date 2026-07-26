@@ -648,7 +648,7 @@ def confirmar_pedido():
     db.session.flush()
 
     # Mensaje WhatsApp
-    mensaje = f"""Hola Mini Tentaciones 🍩
+    mensaje = f"""Hola Mini Tentaciones \U0001F369
 
 Nombre: {current_user.nombre}
 Email: {current_user.email}
@@ -680,7 +680,7 @@ Pedido #{pedido.id}:
             db.session.add(item)
 
             # Agregar producto al mensaje
-            mensaje += f"🍩 {producto.nombre} x{cantidad} - ${subtotal:,.0f}\n"
+            mensaje += f"\U0001F369 {producto.nombre} x{cantidad} - ${subtotal:,.0f}\n"
 
 
     pedido.total = total
