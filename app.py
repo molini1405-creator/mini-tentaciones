@@ -647,13 +647,15 @@ def confirmar_pedido():
     db.session.add(pedido)
     db.session.flush()
 
-    # Texto para WhatsApp
-    mensaje = f"Hola Mini Tentaciones 🍩%0A%0A"
+    # Mensaje WhatsApp
+    mensaje = f"""Hola Mini Tentaciones 🍩
 
-    mensaje += f"Nombre: {current_user.nombre}%0A"
-    mensaje += f"Email: {current_user.email}%0A%0A"
+Nombre: {current_user.nombre}
+Email: {current_user.email}
 
-    mensaje += f"Pedido #{pedido.id}:%0A%0A"
+Pedido #{pedido.id}:
+
+"""
 
     # Guardar items
     for producto_id, cantidad in carrito.items():
@@ -677,28 +679,39 @@ def confirmar_pedido():
 
             db.session.add(item)
 
-            # Agregar al mensaje
-            mensaje += f"🍩 {producto.nombre} x{cantidad} - ${subtotal:,.0f}%0A"
+            # Agregar producto al mensaje
+            mensaje += f"🍩 {producto.nombre} x{cantidad} - ${subtotal:,.0f}\n"
+
 
     pedido.total = total
 
     db.session.commit()
 
+
     # Vaciar carrito
     session['carrito'] = {}
 
-    # Final del mensaje
-    mensaje += f"%0ATotal: ${total:,.0f}%0A%0A"
-    mensaje += "Quiero confirmar mi pedido."
 
-    # TU NÚMERO DE WHATSAPP
+    # Final mensaje
+    mensaje += f"""
+    
+Total: ${total:,.0f}
+
+Quiero confirmar mi pedido.
+"""
+
+
+    # Número WhatsApp
     numero = "5492612070017"
 
-    # URL de WhatsApp
-    whatsapp_url = f"https://wa.me/{numero}?text={mensaje}"
+
+    # Codificar correctamente emojis y caracteres
+    mensaje_codificado = quote(mensaje)
+
+
+    whatsapp_url = f"https://wa.me/{numero}?text={mensaje_codificado}"
 
     return redirect(whatsapp_url)
-
 # =========================
 # ADMIN PRODUCTOS
 # =========================
