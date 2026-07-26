@@ -24,7 +24,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import os
 import webbrowser
 from threading import Timer
-from urllib.parse import quote
+from urllib.parse import urlencode
 from threading import Thread
 
 app = Flask(__name__)
@@ -721,10 +721,13 @@ def confirmar_pedido():
     numero = "5492612070017"
 
 
-    whatsapp_url = (
-        f"https://wa.me/{numero}?text={quote(mensaje, safe='', encoding='utf-8')}"
-    )
+    params = {
+        "text": mensaje
+    }
 
+    whatsapp_url = (
+            f"https://wa.me/{numero}?{urlencode(params, encoding='utf-8')}"
+    )
 
     return redirect(whatsapp_url)
     
