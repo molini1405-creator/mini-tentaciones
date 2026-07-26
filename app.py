@@ -729,6 +729,15 @@ def confirmar_pedido():
             f"https://wa.me/{numero}?{urlencode(params, encoding='utf-8')}"
     )
 
+    print("====================")
+    print("MENSAJE WHATSAPP:")
+    print(repr(mensaje))
+    print("====================")
+
+    print("URL WHATSAPP:")
+    print(whatsapp_url)
+
+
     return redirect(whatsapp_url)
     
 # =========================
