@@ -722,7 +722,7 @@ def confirmar_pedido():
 
 
     whatsapp_url = (
-        f"https://wa.me/{numero}?text={quote(mensaje)}"
+        f"https://wa.me/{numero}?text={quote(mensaje, safe='', encoding='utf-8')}"
     )
 
 
