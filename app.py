@@ -849,13 +849,30 @@ def cambiar_estado_pedido(id):
     if not current_user.es_admin:
         return 'Acceso denegado'
 
+
     pedido = Pedido.query.get_or_404(id)
 
     nuevo_estado = request.form['estado']
 
+
+    # Si se cancela el pedido, devolver stock
+    if nuevo_estado == "cancelado" and pedido.estado != "cancelado":
+
+        for item in pedido.items:
+
+            producto = Producto.query.get(
+                item.producto_id
+            )
+
+            if producto:
+
+                producto.stock += item.cantidad
+
+
     pedido.estado = nuevo_estado
 
     db.session.commit()
+
 
     return redirect(url_for('admin_pedidos'))
 
