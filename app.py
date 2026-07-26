@@ -855,9 +855,11 @@ def cambiar_estado_pedido(id):
     nuevo_estado = request.form['estado']
 
 
-    # Si se cancela el pedido, devolver stock
-    if nuevo_estado == "cancelado" and pedido.estado != "cancelado":
+    # Si cancela el pedido:
+    if nuevo_estado == "cancelado":
 
+
+        # Devolver productos al stock
         for item in pedido.items:
 
             producto = Producto.query.get(
@@ -869,12 +871,26 @@ def cambiar_estado_pedido(id):
                 producto.stock += item.cantidad
 
 
+        # Eliminar pedido
+        db.session.delete(pedido)
+
+        db.session.commit()
+
+
+        return redirect(
+            url_for('admin_pedidos')
+        )
+
+
+    # Si no es cancelado, solo cambia estado
     pedido.estado = nuevo_estado
 
     db.session.commit()
 
 
-    return redirect(url_for('admin_pedidos'))
+    return redirect(
+        url_for('admin_pedidos')
+    )
 
 # =========================
 # EDITAR PRODUCTO
