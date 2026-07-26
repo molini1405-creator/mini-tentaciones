@@ -649,26 +649,23 @@ def confirmar_pedido():
     db.session.flush()
 
 
-    # Emoji 🍩 en Unicode
+    # Emoji 🍩 generado por Unicode
     dona = "\U0001F369"
 
 
-    # Mensaje inicial WhatsApp
-    mensaje = f"""Hola Mini Tentaciones {dona}
-
-Nombre: {current_user.nombre}
-Email: {current_user.email}
-
-Pedido #{pedido.id}:
-
-"""
+    # Mensaje WhatsApp
+    mensaje = (
+        f"Hola Mini Tentaciones {dona}\n\n"
+        f"Nombre: {current_user.nombre}\n"
+        f"Email: {current_user.email}\n\n"
+        f"Pedido #{pedido.id}:\n\n"
+    )
 
 
-    # Guardar productos
+    # Recorrer carrito
     for producto_id, cantidad in carrito.items():
 
         producto = Producto.query.get(int(producto_id))
-
 
         if producto and producto.stock >= cantidad:
 
@@ -677,7 +674,7 @@ Pedido #{pedido.id}:
             total += subtotal
 
 
-            # Descontar stock
+            # Restar stock
             producto.stock -= cantidad
 
 
@@ -700,7 +697,6 @@ Pedido #{pedido.id}:
 
     pedido.total = total
 
-
     db.session.commit()
 
 
@@ -709,22 +705,24 @@ Pedido #{pedido.id}:
     session.modified = True
 
 
-    # Final del mensaje
-    mensaje += f"""
-Total: ${total:,.0f}
-
-Quiero confirmar mi pedido.
-"""
+    mensaje += (
+        f"\nTotal: ${total:,.0f}\n\n"
+        "Quiero confirmar mi pedido."
+    )
 
 
-    # Número WhatsApp
+    # Debug para ver qué manda realmente
+    print("====================")
+    print("MENSAJE WHATSAPP:")
+    print(repr(mensaje))
+    print("====================")
+
+
     numero = "5492612070017"
 
 
-    # Crear URL
     whatsapp_url = (
-        f"https://wa.me/{numero}"
-        f"?text={quote(mensaje, encoding='utf-8')}"
+        f"https://wa.me/{numero}?text={quote(mensaje)}"
     )
 
 
