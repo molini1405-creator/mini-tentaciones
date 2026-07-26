@@ -649,7 +649,11 @@ def confirmar_pedido():
 
     # Texto para WhatsApp
     mensaje = f"Hola Mini Tentaciones 🍩%0A%0A"
-    mensaje += f"Quiero confirmar mi pedido #{pedido.id}%0A%0A"
+
+    mensaje += f"Nombre: {current_user.nombre}%0A"
+    mensaje += f"Email: {current_user.email}%0A%0A"
+
+    mensaje += f"Pedido #{pedido.id}:%0A%0A"
 
     # Guardar items
     for producto_id, cantidad in carrito.items():
@@ -684,8 +688,8 @@ def confirmar_pedido():
     session['carrito'] = {}
 
     # Final del mensaje
-    mensaje += f"%0ATotal: ${total:,.0f}%0A"
-    mensaje += f"Cliente: {current_user.nombre}"
+    mensaje += f"%0ATotal: ${total:,.0f}%0A%0A"
+    mensaje += "Quiero confirmar mi pedido."
 
     # TU NÚMERO DE WHATSAPP
     numero = "5492612070017"
