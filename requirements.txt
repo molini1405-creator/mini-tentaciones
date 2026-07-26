@@ -5,3 +5,4 @@ Werkzeug
 gunicorn
 resend
 psycopg2-binary
+Flask-Migrate
