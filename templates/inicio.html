@@ -1,0 +1,242 @@
+{% extends "base.html" %}
+
+{% block contenido %}
+
+<style>
+
+.portada {
+
+    min-height: 75vh;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    text-align:center;
+
+}
+
+
+.tarjeta-portada {
+
+    background: rgba(255,255,255,0.95);
+
+    padding:45px;
+
+    border-radius:30px;
+
+    max-width:500px;
+
+    box-shadow:0 10px 35px rgba(0,0,0,0.3);
+
+}
+
+
+.logo {
+
+    font-size:70px;
+
+}
+
+
+.titulo {
+
+    font-size:45px;
+
+    font-weight:800;
+
+    color:#8b4513;
+
+}
+
+
+.descripcion {
+
+    font-size:20px;
+
+    color:#555;
+
+}
+
+
+.btn-catalogo {
+
+    display:inline-block;
+
+    margin-top:25px;
+
+    padding:15px 40px;
+
+    background:#8b4513;
+
+    color:white;
+
+    border-radius:50px;
+
+    text-decoration:none;
+
+    font-size:22px;
+
+    font-weight:bold;
+
+    transition:.3s;
+
+}
+
+
+.btn-catalogo:hover {
+
+    background:#5c2d0c;
+
+    color:white;
+
+    transform:scale(1.05);
+
+}
+
+
+.redes a {
+
+    text-decoration:none;
+
+    font-size:35px;
+
+    margin:10px;
+
+}
+
+</style>
+
+
+
+<div class="portada">
+
+
+<div class="tarjeta-portada">
+
+
+<div class="logo">
+🍩
+</div>
+
+
+<h1 class="titulo">
+Mini Tentaciones
+</h1>
+
+
+<p class="descripcion">
+Donas artesanales hechas con amor ❤️
+</p>
+
+
+
+<a href="{{ url_for('catalogo') }}" class="btn-catalogo">
+
+🛒 Ver catálogo
+
+</a>
+
+
+
+<div class="redes mt-4">
+
+
+<a href="https://instagram.com/" target="_blank">
+📸
+</a>
+
+
+<a href="https://tiktok.com/" target="_blank">
+🎵
+</a>
+
+
+<a href="https://wa.me/5492612070017" target="_blank">
+💬
+</a>
+
+
+</div>
+
+
+
+<p class="mt-3">
+Endulzamos tus momentos 🍩
+</p>
+
+
+</div>
+
+
+</div>
+
+
+{% endblock %}
+
+
+<div class="portada">
+
+<div class="tarjeta">
+
+
+<div class="logo">
+🍩
+</div>
+
+
+<h1>
+Mini Tentaciones
+</h1>
+
+
+<p class="descripcion">
+
+Donas artesanales hechas con amor ❤️
+
+</p>
+
+
+
+<a 
+href="{{ url_for('catalogo') }}"
+class="boton-catalogo">
+
+🛒 Ver catálogo
+
+</a>
+
+
+
+<div class="redes">
+
+
+<a href="https://instagram.com/" target="_blank">
+📸
+</a>
+
+
+<a href="https://tiktok.com/" target="_blank">
+🎵
+</a>
+
+
+<a href="https://wa.me/5492612070017" target="_blank">
+💬
+</a>
+
+
+</div>
+
+
+<p class="mt-3">
+Endulzamos tus momentos 🍩
+</p>
+
+
+</div>
+
+</div>
+
+
+{% endblock %}

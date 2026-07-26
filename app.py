@@ -418,7 +418,23 @@ def logout():
 # CATÁLOGO
 # =========================
 
+# =========================
+# PÁGINA PRINCIPAL
+# =========================
+
 @app.route('/')
+def inicio():
+
+    return render_template(
+        'inicio.html'
+    )
+
+
+# =========================
+# CATÁLOGO
+# =========================
+
+@app.route('/catalogo')
 def catalogo():
 
     productos = Producto.query.all()
