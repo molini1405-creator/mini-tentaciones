@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from flask import Flask, render_template, session, redirect, url_for, request, flash
 from config import Config
 from models import db
