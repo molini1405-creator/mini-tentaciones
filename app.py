@@ -647,72 +647,59 @@ def confirmar_pedido():
 
     db.session.add(pedido)
     db.session.flush()
+# Texto para WhatsApp
+    mensaje = f"""Hola Mini Tentaciones 🍩
 
-    # Mensaje WhatsApp
-    mensaje = f"""Hola Mini Tentaciones \U0001F369
+    Nombre: {current_user.nombre}
+    Email: {current_user.email}
 
-Nombre: {current_user.nombre}
-Email: {current_user.email}
+    Pedido #{pedido.id}:
 
-Pedido #{pedido.id}:
+    """
 
-"""
-
-    # Guardar items
+# Guardar items
     for producto_id, cantidad in carrito.items():
 
         producto = Producto.query.get(int(producto_id))
 
-        if producto and producto.stock >= cantidad:
+    if producto and producto.stock >= cantidad:
 
-            subtotal = producto.precio * cantidad
-            total += subtotal
+        subtotal = producto.precio * cantidad
+        total += subtotal
 
-            # Descontar stock
-            producto.stock -= cantidad
+        producto.stock -= cantidad
 
-            item = ItemPedido(
-                pedido_id=pedido.id,
-                producto_id=producto.id,
-                cantidad=cantidad,
-                precio_unitario=producto.precio
-            )
+        item = ItemPedido(
+            pedido_id=pedido.id,
+            producto_id=producto.id,
+            cantidad=cantidad,
+            precio_unitario=producto.precio
+        )
 
-            db.session.add(item)
+        db.session.add(item)
 
-            # Agregar producto al mensaje
-            mensaje += f"\U0001F369 {producto.nombre} x{cantidad} - ${subtotal:,.0f}\n"
+        mensaje += f"🍩 {producto.nombre} x{cantidad} - ${subtotal:,.0f}\n"
 
 
     pedido.total = total
 
     db.session.commit()
 
-
-    # Vaciar carrito
     session['carrito'] = {}
 
-
-    # Final mensaje
     mensaje += f"""
-    
-Total: ${total:,.0f}
+    Total: ${total:,.0f}
 
-Quiero confirmar mi pedido.
+    Quiero confirmar mi pedido.
 """
 
 
-    # Número WhatsApp
     numero = "5492612070017"
 
-
-    # Codificar correctamente emojis y caracteres
-    mensaje_codificado = quote(mensaje)
-
-
-    whatsapp_url = f"https://wa.me/{numero}?text={mensaje_codificado}"
+    whatsapp_url = f"https://wa.me/{numero}?text={quote(mensaje, encoding='utf-8')}"
 
     return redirect(whatsapp_url)
+    
 # =========================
 # ADMIN PRODUCTOS
 # =========================
