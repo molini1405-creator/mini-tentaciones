@@ -648,7 +648,7 @@ def confirmar_pedido():
     db.session.add(pedido)
     db.session.flush()
 # Texto para WhatsApp
-    mensaje = f"""Hola Mini Tentaciones 🍩
+    mensaje = f"""Hola Mini Tentaciones 🍩\n\n"
 
     Nombre: {current_user.nombre}
     Email: {current_user.email}
