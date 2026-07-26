@@ -656,7 +656,7 @@ def confirmar_pedido():
     # Mensaje WhatsApp
     mensaje = (
     
-    "🍩 Mini Tentaciones\n"
+    " Hola Mini Tentaciones 🍩\n"
     "━━━━━━━━━━━━━━\n\n"
     f"👤 Cliente:\n"
     f"{current_user.nombre}\n\n"
