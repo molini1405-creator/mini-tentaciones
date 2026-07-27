@@ -7,3 +7,4 @@ from .producto import Producto
 from .pedido import Pedido
 from .item_pedido import ItemPedido
 from .resena import Resena
+from .notificacion import Notificacion
