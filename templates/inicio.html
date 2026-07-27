@@ -5,63 +5,131 @@
 
 <style>
 
-body {
+.portada {
+    min-height: 75vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     background-image: url('/static/img/fondo_donas.jpg');
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
+
+    border-radius: 30px;
+    overflow: hidden;
+
+    position: relative;
 }
+
+
+.portada::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+}
+
+
+.contenido-portada {
+
+    position: relative;
+    z-index: 2;
+
+    text-align: center;
+
+    color: white;
+
+    background: rgba(255,255,255,0.15);
+
+    backdrop-filter: blur(8px);
+
+    padding: 50px;
+
+    border-radius: 30px;
+
+}
+
+
+.contenido-portada h1 {
+
+    font-size: 60px;
+
+    font-weight: 800;
+
+}
+
+
+.btn-portada {
+
+    border-radius: 20px;
+
+    padding: 12px 30px;
+
+    font-size: 20px;
+
+    font-weight: bold;
+
+}
+
 
 </style>
 
-<div class="text-center p-5">
 
 
-    <h1 style="font-size:60px;">
-        🍩
-    </h1>
+<div class="portada">
 
 
-    <h1>
-        Mini Tentaciones
-    </h1>
+    <div class="contenido-portada">
 
 
-    <p>
-        Donas artesanales hechas con amor ❤️
-    </p>
+        <h1>
+            🍩 Mini Tentaciones
+        </h1>
 
 
-    <a href="{{ url_for('catalogo') }}"
-       class="btn btn-warning btn-lg">
-
-        🛒 Ver catálogo
-
-    </a>
+        <p class="fs-4">
+            Donas artesanales hechas con amor ❤️
+        </p>
 
 
-    <div class="mt-4">
 
-        <a href="https://www.instagram.com/minii_tentacioness_ayc?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
-           class="btn btn-danger">
+        <a href="{{ url_for('catalogo') }}"
+           class="btn btn-warning btn-portada mt-3">
 
-            📸 Instagram
+            🛒 Ver catálogo
 
         </a>
 
 
-        <a href="https://wa.me/5492612070017"
-           class="btn btn-success">
 
-            💬 WhatsApp
+        <div class="mt-4">
 
-        </a>
+
+            <a href="https://www.instagram.com/minii_tentacioness_ayc?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+               class="btn btn-danger btn-portada me-2">
+
+                📸 Instagram
+
+            </a>
+
+
+
+            <a href="https://wa.me/5492612070017"
+               class="btn btn-success btn-portada">
+
+                💬 WhatsApp
+
+            </a>
+
+
+        </div>
 
 
     </div>
 
 
 </div>
+
 
 
 {% endblock %}
