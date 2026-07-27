@@ -292,6 +292,13 @@
 <script>
 
 let ultimaCantidad = 0;
+let audioPermitido = false;
+
+document.addEventListener("click", function(){
+
+    audioPermitido = true;
+
+});
 
 async function revisarNotificaciones() {
 
@@ -338,7 +345,21 @@ async function revisarNotificaciones() {
             // Reproducir sonido
             const audio = new Audio("/static/sounds/notificaciones.mp3");
 
-            audio.play().catch(() => {});
+            audio.volume = 1;
+
+if (audioPermitido) {
+
+    const audio = new Audio("/static/sounds/notification.mp3");
+
+    audio.volume = 1;
+
+    audio.play();
+
+} else {
+
+    console.log("Esperando interacción del usuario");
+
+}
 
         }
 
