@@ -303,6 +303,16 @@ if ("Notification" in window) {
 <script>
 
 let ultimaCantidad = 0;
+// Solicitar permiso para notificaciones del navegador
+if ("Notification" in window) {
+
+    if (Notification.permission === "default") {
+
+        Notification.requestPermission();
+
+    }
+
+}
 let audioPermitido = false;
 
 document.addEventListener("click", function(){
@@ -352,6 +362,19 @@ async function revisarNotificaciones() {
             );
 
             toast.show();
+            // Notificación del sistema
+if ("Notification" in window &&
+    Notification.permission === "granted") {
+
+    new Notification("🍩 Mini Tentaciones", {
+
+        body: datos[0].mensaje,
+
+        icon: "/static/img/mi_fondo.jpg"
+
+    });
+
+}
 
             // Notificación del sistema
 if (Notification.permission === "granted") {
