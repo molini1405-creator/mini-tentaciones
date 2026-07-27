@@ -409,7 +409,7 @@ def logout():
 
     logout_user()
 
-    return redirect(url_for('catalogo', agregado=1))
+    return redirect(url_for('catalogo'))
 
 
 
@@ -560,7 +560,7 @@ def agregar_carrito(id):
 
 
     return redirect(
-        url_for('catalogo')
+        url_for('catalogo',agregado=1)
     )
 
 
