@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block contenido %}
+
+<h2 class="mb-4">
+    🔔 Mis notificaciones
+</h2>
+
+{% if notificaciones %}
+
+    {% for n in notificaciones %}
+
+        <div class="card mb-3 shadow-sm">
+
+            <div class="card-body">
+
+                <h5>{{ n.mensaje }}</h5>
+
+                <small class="text-muted">
+                    {{ n.fecha.strftime('%d/%m/%Y %H:%M') }}
+                </small>
+
+            </div>
+
+        </div>
+
+    {% endfor %}
+
+{% else %}
+
+    <div class="alert alert-info">
+        No tenés notificaciones.
+    </div>
+
+{% endif %}
+
+{% endblock %}

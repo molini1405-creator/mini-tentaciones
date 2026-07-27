@@ -127,6 +127,27 @@ def mis_pedidos():
         'mis_pedidos.html',
         pedidos=pedidos
     )
+
+@app.route('/notificaciones')
+@login_required
+def ver_notificaciones():
+
+    notificaciones = Notificacion.query.filter_by(
+        usuario_id=current_user.id
+    ).order_by(
+        Notificacion.fecha.desc()
+    ).all()
+
+    # Marcar todas como leídas
+    for n in notificaciones:
+        n.leida = True
+
+    db.session.commit()
+
+    return render_template(
+        'notificaciones.html',
+        notificaciones=notificaciones
+    )
 # =========================
 # REGISTRO CLIENTES
 # =========================
@@ -412,12 +433,6 @@ def logout():
 
     return redirect(url_for('catalogo'))
 
-
-
-
-# =========================
-# CATÁLOGO
-# =========================
 
 # =========================
 # PÁGINA PRINCIPAL
