@@ -1,240 +1,55 @@
 {% extends "base.html" %}
 
+
 {% block contenido %}
 
-<style>
 
-.portada {
+<div class="text-center p-5">
 
-    min-height: 75vh;
 
-    display:flex;
-    justify-content:center;
-    align-items:center;
+    <h1 style="font-size:60px;">
+        🍩
+    </h1>
 
-    text-align:center;
 
-}
+    <h1>
+        Mini Tentaciones
+    </h1>
 
 
-.tarjeta-portada {
+    <p>
+        Donas artesanales hechas con amor ❤️
+    </p>
 
-    background: rgba(255,255,255,0.95);
 
-    padding:45px;
+    <a href="{{ url_for('catalogo') }}"
+       class="btn btn-warning btn-lg">
 
-    border-radius:30px;
+        🛒 Ver catálogo
 
-    max-width:500px;
+    </a>
 
-    box-shadow:0 10px 35px rgba(0,0,0,0.3);
 
-}
+    <div class="mt-4">
 
+        <a href="https://instagram.com"
+           class="btn btn-danger">
 
-.logo {
+            📸 Instagram
 
-    font-size:70px;
+        </a>
 
-}
 
+        <a href="https://wa.me/5492612070017"
+           class="btn btn-success">
 
-.titulo {
+            💬 WhatsApp
 
-    font-size:45px;
+        </a>
 
-    font-weight:800;
 
-    color:#8b4513;
+    </div>
 
-}
-
-
-.descripcion {
-
-    font-size:20px;
-
-    color:#555;
-
-}
-
-
-.btn-catalogo {
-
-    display:inline-block;
-
-    margin-top:25px;
-
-    padding:15px 40px;
-
-    background:#8b4513;
-
-    color:white;
-
-    border-radius:50px;
-
-    text-decoration:none;
-
-    font-size:22px;
-
-    font-weight:bold;
-
-    transition:.3s;
-
-}
-
-
-.btn-catalogo:hover {
-
-    background:#5c2d0c;
-
-    color:white;
-
-    transform:scale(1.05);
-
-}
-
-
-.redes a {
-
-    text-decoration:none;
-
-    font-size:35px;
-
-    margin:10px;
-
-}
-
-</style>
-
-
-
-<div class="portada">
-
-
-<div class="tarjeta-portada">
-
-
-<div class="logo">
-🍩
-</div>
-
-
-<h1 class="titulo">
-Mini Tentaciones
-</h1>
-
-
-<p class="descripcion">
-Donas artesanales hechas con amor ❤️
-</p>
-
-
-
-<a href="{{ url_for('catalogo') }}" class="btn-catalogo">
-
-🛒 Ver catálogo
-
-</a>
-
-
-
-<div class="redes mt-4">
-
-
-<a href="https://instagram.com/" target="_blank">
-📸
-</a>
-
-
-<a href="https://tiktok.com/" target="_blank">
-🎵
-</a>
-
-
-<a href="https://wa.me/5492612070017" target="_blank">
-💬
-</a>
-
-
-</div>
-
-
-
-<p class="mt-3">
-Endulzamos tus momentos 🍩
-</p>
-
-
-</div>
-
-
-</div>
-
-
-{% endblock %}
-
-
-<div class="portada">
-
-<div class="tarjeta">
-
-
-<div class="logo">
-🍩
-</div>
-
-
-<h1>
-Mini Tentaciones
-</h1>
-
-
-<p class="descripcion">
-
-Donas artesanales hechas con amor ❤️
-
-</p>
-
-
-
-<a 
-href="{{ url_for('catalogo') }}"
-class="boton-catalogo">
-
-🛒 Ver catálogo
-
-</a>
-
-
-
-<div class="redes">
-
-
-<a href="https://instagram.com/" target="_blank">
-📸
-</a>
-
-
-<a href="https://tiktok.com/" target="_blank">
-🎵
-</a>
-
-
-<a href="https://wa.me/5492612070017" target="_blank">
-💬
-</a>
-
-
-</div>
-
-
-<p class="mt-3">
-Endulzamos tus momentos 🍩
-</p>
-
-
-</div>
 
 </div>
 
