@@ -10,6 +10,7 @@ from models.producto import Producto
 from models.pedido import Pedido
 from models.item_pedido import ItemPedido
 from models.resena import Resena
+from models.notificacion import Notificacion
 
 from flask_login import (
     LoginManager,
@@ -900,6 +901,17 @@ def cambiar_estado_pedido(id):
 
     # Si no es cancelado, solo cambia estado
     pedido.estado = nuevo_estado
+
+    notificacion = Notificacion(
+        usuario_id=pedido.usuario_id,
+        pedido_id=pedido.id,
+        mensaje=f"📦 Tu pedido #{pedido.id} ahora está: {nuevo_estado}"
+)
+
+    db.session.add(notificacion)
+
+    db.session.commit()
+    
 
     db.session.commit()
 
