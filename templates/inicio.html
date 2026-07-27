@@ -6,48 +6,74 @@
 <style>
 
 .portada {
+
     min-height: 75vh;
+
     display: flex;
+
     align-items: center;
+
     justify-content: center;
 
+
     background-image: url('/static/img/fondo_donas.jpg');
+
     background-size: cover;
+
     background-position: center;
 
+    background-repeat: no-repeat;
+
+
     border-radius: 30px;
+
     overflow: hidden;
 
     position: relative;
+
 }
 
 
+/* Oscurece un poco la imagen para que se lea el texto */
 .portada::before {
+
     content: "";
+
     position: absolute;
+
     inset: 0;
+
     background: rgba(0,0,0,0.35);
+
 }
+
 
 
 .contenido-portada {
 
     position: relative;
+
     z-index: 2;
 
     text-align: center;
 
     color: white;
 
-    background: rgba(255,255,255,0.15);
-
-    backdrop-filter: blur(8px);
-
     padding: 50px;
 
-    border-radius: 30px;
+}
+
+
+
+/* Sombra para que el texto destaque */
+
+.contenido-portada h1,
+.contenido-portada p {
+
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
 
 }
+
 
 
 .contenido-portada h1 {
@@ -59,17 +85,37 @@
 }
 
 
+
+.contenido-portada p {
+
+    font-size: 24px;
+
+}
+
+
+
 .btn-portada {
 
     border-radius: 20px;
 
-    padding: 12px 30px;
+    padding: 12px 35px;
 
     font-size: 20px;
 
     font-weight: bold;
 
+    transition: .3s;
+
 }
+
+
+
+.btn-portada:hover {
+
+    transform: scale(1.05);
+
+}
+
 
 
 </style>
@@ -87,7 +133,7 @@
         </h1>
 
 
-        <p class="fs-4">
+        <p>
             Donas artesanales hechas con amor ❤️
         </p>
 
