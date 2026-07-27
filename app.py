@@ -4,6 +4,7 @@ from config import Config
 from models import db
 import resend
 from flask_migrate import Migrate
+from flask import jsonify
 
 from models.usuario import Usuario
 from models.producto import Producto
@@ -148,6 +149,28 @@ def ver_notificaciones():
         'notificaciones.html',
         notificaciones=notificaciones
     )
+
+@app.route('/api/notificaciones')
+@login_required
+def api_notificaciones():
+
+    notificaciones = Notificacion.query.filter_by(
+        usuario_id=current_user.id,
+        leida=False
+    ).order_by(
+        Notificacion.fecha.desc()
+    ).all()
+
+    datos = []
+
+    for n in notificaciones:
+
+        datos.append({
+            "id": n.id,
+            "mensaje": n.mensaje
+        })
+
+    return jsonify(datos)
 # =========================
 # REGISTRO CLIENTES
 # =========================
