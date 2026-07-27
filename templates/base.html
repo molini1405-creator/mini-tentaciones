@@ -140,9 +140,13 @@
     🔔
 
     {% if no_leidas > 0 %}
-    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-        {{ no_leidas }}
-    </span>
+    <span
+    id="badgeNotificaciones"
+    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+    {% if no_leidas == 0 %}style="display:none"{% endif %}
+>
+    {{ no_leidas }}
+</span>
     {% endif %}
 
 </a>
@@ -284,6 +288,77 @@
 
         });
     </script>
+
+<script>
+
+let ultimaCantidad = 0;
+
+async function revisarNotificaciones() {
+
+    try {
+
+        const respuesta = await fetch("/api/notificaciones");
+
+        const datos = await respuesta.json();
+
+        // Actualizar contador de la campana
+        const badge = document.getElementById("badgeNotificaciones");
+
+        if (badge) {
+
+            if (datos.length > 0) {
+
+                badge.innerText = datos.length;
+                badge.style.display = "inline-block";
+
+            } else {
+
+                badge.style.display = "none";
+
+            }
+
+        }
+
+        // Si llegaron nuevas
+        if (datos.length > ultimaCantidad && datos.length > 0) {
+
+            // Mostrar último mensaje
+            document.getElementById("mensajeNotificacion").innerText =
+                datos[0].mensaje;
+
+            const toast = new bootstrap.Toast(
+                document.getElementById("toastNotificacion"),
+                {
+                    delay: 5000
+                }
+            );
+
+            toast.show();
+
+            // Reproducir sonido
+            const audio = new Audio("/static/sounds/notification.mp3");
+
+            audio.play().catch(() => {});
+
+        }
+
+        ultimaCantidad = datos.length;
+
+    } catch (error) {
+
+        console.log(error);
+
+    }
+
+}
+
+// Primera consulta
+revisarNotificaciones();
+
+// Consultar cada 5 segundos
+setInterval(revisarNotificaciones, 5000);
+
+</script>
 
 </body>
 
