@@ -14,28 +14,37 @@
 
             <div>
                 <h5 class="mb-0">Pedido #{{ pedido.id }}</h5>
+
                 <small class="text-muted">
                     {{ pedido.fecha.strftime('%d/%m/%Y %H:%M') }}
                 </small>
             </div>
 
-            <form method="POST" action="/admin/pedido/{{ pedido.id }}/estado" class="d-flex gap-2 align-items-center flex-wrap">
+            <form method="POST"
+                  action="/admin/pedido/{{ pedido.id }}/estado"
+                  class="d-flex gap-2 align-items-center flex-wrap">
 
-                <select name="estado" class="form-select form-select-sm" style="width: 170px;">
+                <select name="estado"
+                        class="form-select form-select-sm"
+                        style="width: 170px;">
 
-                    <option value="pendiente" {% if pedido.estado == 'pendiente' %}selected{% endif %}>
+                    <option value="pendiente"
+                        {% if pedido.estado == 'pendiente' %}selected{% endif %}>
                         Pendiente
                     </option>
 
-                    <option value="preparando" {% if pedido.estado == 'preparando' %}selected{% endif %}>
+                    <option value="preparando"
+                        {% if pedido.estado == 'preparando' %}selected{% endif %}>
                         Preparando
                     </option>
 
-                    <option value="entregado" {% if pedido.estado == 'entregado' %}selected{% endif %}>
+                    <option value="entregado"
+                        {% if pedido.estado == 'entregado' %}selected{% endif %}>
                         Entregado
                     </option>
 
-                    <option value="cancelado" {% if pedido.estado == 'cancelado' %}selected{% endif %}>
+                    <option value="cancelado"
+                        {% if pedido.estado == 'cancelado' %}selected{% endif %}>
                         Cancelado
                     </option>
 
@@ -70,12 +79,14 @@
                 <table class="table align-middle">
 
                     <thead class="table-light">
+
                         <tr>
                             <th>Producto</th>
                             <th class="text-center">Cantidad</th>
                             <th class="text-end">Precio</th>
                             <th class="text-end">Subtotal</th>
                         </tr>
+
                     </thead>
 
                     <tbody>
@@ -109,7 +120,10 @@
                     <tfoot>
 
                         <tr>
-                            <th colspan="3" class="text-end">TOTAL</th>
+                            <th colspan="3" class="text-end">
+                                TOTAL
+                            </th>
+
                             <th class="text-end text-success">
                                 ${{ '%.0f'|format(pedido.total) }}
                             </th>
@@ -134,5 +148,65 @@
 </div>
 
 {% endif %}
+
+
+<!-- =============================== -->
+<!-- SONIDO DE NUEVO PEDIDO -->
+<!-- =============================== -->
+
+<audio id="sonidoPedido" preload="auto">
+    <source src="{{ url_for('static', filename='sounds/pedido.mp3') }}" type="audio/mpeg">
+</audio>
+
+
+<script>
+    let ultimoPedido = 0;
+    let sonido = document.getElementById("sonidoPedido");
+
+    document.addEventListener("click", function() {
+        sonido.load();
+    }, { once: true });
+
+    setInterval(function() {
+
+        fetch("/admin/pedidos")
+            .then(response => response.text())
+            .then(html => {
+
+                let coincidencia = html.match(/Pedido #(\d+)/);
+
+                if (!coincidencia) {
+                    return;
+                }
+
+                let nuevoPedido = parseInt(coincidencia[1]);
+
+                if (ultimoPedido === 0) {
+                    ultimoPedido = nuevoPedido;
+                    return;
+                }
+
+                if (nuevoPedido > ultimoPedido) {
+
+                    ultimoPedido = nuevoPedido;
+
+                    sonido.currentTime = 0;
+
+                    sonido.play()
+                        .then(() => {
+                            console.log("🔊 Nuevo pedido");
+                        })
+                        .catch(error => {
+                            console.log("No se pudo reproducir:", error);
+                        });
+                }
+
+            })
+            .catch(error => {
+                console.log("Error:", error);
+            });
+
+    }, 5000);
+</script>
 
 {% endblock %}
