@@ -1,0 +1,70 @@
+.redes-portada {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+    margin-top: 25px;
+    margin-bottom: 30px;
+}
+
+.red-social {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    padding: 12px 20px;
+
+    border-radius: 50px;
+
+    text-decoration: none;
+
+    color: white;
+
+    font-weight: 600;
+
+    font-size: 15px;
+
+    transition: all 0.3s ease;
+
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
+
+.red-social i {
+    font-size: 22px;
+}
+
+.red-social:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.22);
+}
+
+.whatsapp {
+    background: #25D366;
+}
+
+.instagram {
+    background: linear-gradient(
+        45deg,
+        #feda75,
+        #fa7e1e,
+        #d62976,
+        #962fbf,
+        #4f5bd5
+    );
+}
+
+@media (max-width: 600px) {
+
+    .redes-portada {
+        gap: 10px;
+    }
+
+    .red-social {
+        padding: 11px 16px;
+        font-size: 14px;
+    }
+
+    .red-social i {
+        font-size: 20px;
+    }
+}
