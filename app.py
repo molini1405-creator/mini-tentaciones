@@ -904,15 +904,15 @@ def cambiar_estado_pedido(id):
     if not current_user.es_admin:
         return 'Acceso denegado'
 
-
     pedido = Pedido.query.get_or_404(id)
 
     nuevo_estado = request.form['estado']
 
+    # ==========================================
+    # SI CANCELA EL PEDIDO
+    # ==========================================
 
-    # Si cancela el pedido:
     if nuevo_estado == "cancelado":
-
 
         # Devolver productos al stock
         for item in pedido.items:
@@ -922,37 +922,41 @@ def cambiar_estado_pedido(id):
             )
 
             if producto:
-
                 producto.stock += item.cantidad
 
+        # Eliminar primero las notificaciones
+        # relacionadas con este pedido
+        Notificacion.query.filter_by(
+            pedido_id=pedido.id
+        ).delete(
+            synchronize_session=False
+        )
 
-        # Eliminar pedido
+        # Ahora eliminar el pedido
         db.session.delete(pedido)
 
         db.session.commit()
-
 
         return redirect(
             url_for('admin_pedidos')
         )
 
+    # ==========================================
+    # CAMBIAR ESTADO
+    # ==========================================
 
-    # Si no es cancelado, solo cambia estado
     pedido.estado = nuevo_estado
 
+    # Crear notificación para el cliente
     notificacion = Notificacion(
         usuario_id=pedido.usuario_id,
         pedido_id=pedido.id,
         mensaje=f"📦 Tu pedido #{pedido.id} ahora está: {nuevo_estado}"
-)
+    )
 
     db.session.add(notificacion)
 
     db.session.commit()
-    
-
-    db.session.commit()
-
 
     return redirect(
         url_for('admin_pedidos')
